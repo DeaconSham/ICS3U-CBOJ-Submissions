@@ -90,8 +90,8 @@ class Rectangle { //1
                   return new Rectangle (r1.left, r2.bot, r2R - r1.left, r1T - r2.bot);
                 }
             }
-            return new Rectangle();
         }
+        return new Rectangle();
     }
     public static int totalPerimeter (Rectangle r1, Rectangle r2) {
         return (r1.perimeter() + r2.perimeter()) - intersection(r1, r2).perimeter();
