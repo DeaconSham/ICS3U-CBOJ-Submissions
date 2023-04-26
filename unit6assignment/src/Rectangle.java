@@ -58,36 +58,50 @@ class Rectangle { //1
             int r1T = r1.bot + r1.height;
             int r2R = r2.left + r2.width;
             int r2T = r2.bot + r2.height;
-            if (r1.left > r2.left && r1.left < r2R) {
-                if (r1T < r2T && r1T > r2.bot) {
-                  return new Rectangle (r1.left, r2.bot, r2R - r1.left, r1T - r2.bot);
-                } 
-                else if (r1.bot > r2.bot && r1.bot < r2T) {
-                  return new Rectangle (r1.left, r1.bot, r2R - r1.left, r2T - r1.bot);
-                }
-            } 
-              else if (r1R > r2.left && r1R < r2R) {
-                if (r1T < r2T && r1T > r2.bot) {
-                  return new Rectangle (r2.left, r2.bot, r1R - r2.left, r1T - r2.bot);
-                } 
-                else if (r1.bot > r2.bot && r1.bot < r2T) {
-                  return new Rectangle (r2.left, r1.bot, r1R - r2.left, r2T - r1.bot);
-                }
+            if (r1.left == r2R) {
+                return new Rectangle (r1.left, Math.max(r1.bot, r2.bot), Math.min(r1.bot, r2.bot) - Math.max(r1.bot, r2.bot), 0);
             }
-                else if (r2.left > r1.left && r2.left < r1R) {
-                if (r2T < r1T && r2T > r1.bot) {
-                  return new Rectangle (r2.left, r1.bot, r1.left - r2R, r2T - r1.bot);
-                } 
-                else if (r2.bot> r1.bot && r2.bot < r1T) {
-                  return new Rectangle (r2.left, r2.bot, r1R - r2.left, r1T - r2.bot);
-                }
-            } 
-              else if (r2R < r1R && r2R > r1.left) {
-                if (r2T < r1T && r2T > r1.bot) {
-                  return new Rectangle (r1.left, r1.bot, r2R - r1.left, r2T - r1.bot);
-                }
-                else if (r2.bot > r1.bot && r2.bot < r1T) {
-                  return new Rectangle (r1.left, r2.bot, r2R - r1.left, r1T - r2.bot);
+            else if (r2.left == r1R) {
+                return new Rectangle(r2.left, Math.max(r1.bot, r2.bot), Math.min(r1.bot, r2.bot) - Math.max(r1.bot, r2.bot), 0);
+            }
+            else if (r1.bot == r2T) {
+                return new Rectangle(Math.max(r1.left, r2.left), r1.bot, 0, Math.min(r1R, r2R));
+            }
+            else if (r2.bot == r1T) {
+                return new Rectangle(Math.max(r1.left, r2.left), r2.bot, 0, Math.min(r1R, r2R) - Math.max(r1.left, r2.left));
+            }
+            else {
+                if (r1.left > r2.left && r1.left < r2R) {
+                    if (r1T < r2T && r1T > r2.bot) {
+                        return new Rectangle(r1.left, r2.bot, r2R - r1.left, r1T - r2.bot);
+                    }
+                    else if (r1.bot > r2.bot && r1.bot < r2T) {
+                        return new Rectangle(r1.left, r1.bot, r2R - r1.left, r2T - r1.bot);
+                    }
+                    else if (r1R > r2.left && r1R < r2R) {
+                        if (r1T < r2T && r1T > r2.bot) {
+                            return new Rectangle(r2.left, r2.bot, r1R - r2.left, r1T - r2.bot);
+                        }
+                        else if (r1.bot > r2.bot && r1.bot < r2T) {
+                            return new Rectangle(r2.left, r1.bot, r1R - r2.left, r2T - r1.bot);
+                        }
+                        else if (r2.left > r1.left && r2.left < r1R) {
+                            if (r2T < r1T && r2T > r1.bot) {
+                                return new Rectangle(r2.left, r1.bot, r1.left - r2R, r2T - r1.bot);
+                            }
+                            else if (r2.bot > r1.bot && r2.bot < r1T) {
+                                return new Rectangle (r2.left, r2.bot, r1R - r2.left, r1T - r2.bot);
+                            }
+                            else if (r2R < r1R && r2T > r1.bot) {
+                                if (r2T < r1T && r2T > r1.bot) {
+                                    return new Rectangle (r1.left, r1.bot, r2R - r1.left, r2T - r1.bot);
+                                }
+                                else if (r2.bot > r1.bot && r2.bot < r1T) {
+                                    return new Rectangle (r1.left, r2.bot, r2R - r1.left, r1T - r2.bot);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
