@@ -39,75 +39,34 @@ class Rectangle { //1
         }
     }
     public boolean contains (Rectangle other) { //8
-        if (this.bot + this.height >= other.bot + this.height && this.left + this.width >= other.left + other.width && this.left <= other.left && this.bot <= other.bot) {
-            return true;
+        return this.left <= other.left && this.bot <= other.bot && this.left + this.width >= other.left + other.width && this.bot + this.height >= other.bot + other.height;
         }
-        else {
-            return false;
-        }
-    }
     public static Rectangle intersection (Rectangle r1, Rectangle r2) { //9
-        if (r1.contains(r2)) {
-            return r2;
-        }
-        else if (r2.contains(r1)) {
-            return r1;
+        int lefties = Math.max(r1.getLeft(), r2.getLeft());
+        int botsies = Math.max(r1.getBot(), r2.getBot());
+        int rightsies = Math.min(r1.getLeft() + r1.getWidth(), r2.getLeft() + r2.getWidth());
+        int topsies = Math.min(r1.getBot() + r1.getHeight(), r2.getBot() + r2.getHeight());
+        if (lefties > rightsies || botsies > topsies) {
+            return new Rectangle();
         }
         else {
-            int r1R = r1.left + r1.width;
-            int r1T = r1.bot + r1.height;
-            int r2R = r2.left + r2.width;
-            int r2T = r2.bot + r2.height;
-            if (r1.left == r2R) {
-                return new Rectangle (r1.left, Math.max(r1.bot, r2.bot), Math.min(r1.bot, r2.bot) - Math.max(r1.bot, r2.bot), 0);
-            }
-            else if (r2.left == r1R) {
-                return new Rectangle(r2.left, Math.max(r1.bot, r2.bot), Math.min(r1.bot, r2.bot) - Math.max(r1.bot, r2.bot), 0);
-            }
-            else if (r1.bot == r2T) {
-                return new Rectangle(Math.max(r1.left, r2.left), r1.bot, 0, Math.min(r1R, r2R));
-            }
-            else if (r2.bot == r1T) {
-                return new Rectangle(Math.max(r1.left, r2.left), r2.bot, 0, Math.min(r1R, r2R) - Math.max(r1.left, r2.left));
-            }
-            else {
-                if (r1.left > r2.left && r1.left < r2R) {
-                    if (r1T < r2T && r1T > r2.bot) {
-                        return new Rectangle(r1.left, r2.bot, r2R - r1.left, r1T - r2.bot);
-                    }
-                    else if (r1.bot > r2.bot && r1.bot < r2T) {
-                        return new Rectangle(r1.left, r1.bot, r2R - r1.left, r2T - r1.bot);
-                    }
-                    else if (r1R > r2.left && r1R < r2R) {
-                        if (r1T < r2T && r1T > r2.bot) {
-                            return new Rectangle(r2.left, r2.bot, r1R - r2.left, r1T - r2.bot);
-                        }
-                        else if (r1.bot > r2.bot && r1.bot < r2T) {
-                            return new Rectangle(r2.left, r1.bot, r1R - r2.left, r2T - r1.bot);
-                        }
-                        else if (r2.left > r1.left && r2.left < r1R) {
-                            if (r2T < r1T && r2T > r1.bot) {
-                                return new Rectangle(r2.left, r1.bot, r1.left - r2R, r2T - r1.bot);
-                            }
-                            else if (r2.bot > r1.bot && r2.bot < r1T) {
-                                return new Rectangle (r2.left, r2.bot, r1R - r2.left, r1T - r2.bot);
-                            }
-                            else if (r2R < r1R && r2T > r1.bot) {
-                                if (r2T < r1T && r2T > r1.bot) {
-                                    return new Rectangle (r1.left, r1.bot, r2R - r1.left, r2T - r1.bot);
-                                }
-                                else if (r2.bot > r1.bot && r2.bot < r1T) {
-                                    return new Rectangle (r1.left, r2.bot, r2R - r1.left, r1T - r2.bot);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            return new Rectangle(lefties, botsies, rightsies - lefties, topsies - botsies);
         }
-        return new Rectangle();
     }
     public static int totalPerimeter (Rectangle r1, Rectangle r2) {
         return (r1.perimeter() + r2.perimeter()) - intersection(r1, r2).perimeter();
+    }
+    //get methods to execute methods 9 and 10
+    public int getLeft() {
+        return left;
+    }
+    public int getBot() {
+        return bot;
+    }
+    public int getWidth() {
+        return width;
+    }
+    public int getHeight() {
+        return height;
     }
 }
