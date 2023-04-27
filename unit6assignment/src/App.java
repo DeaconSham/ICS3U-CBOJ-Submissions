@@ -1,6 +1,9 @@
 import java.io.*;
 import java.util.*;
 public class App {
+    //note the App class is only used for testing
+    // it will output intersection and totalPerimeter methods
+    //for the int values you put in order within String (x, y, w, h)
     public static Scanner ui = new Scanner (System.in);
     public static void main(String[] args) throws Exception {
         Rectangle x = new Rectangle(-4, -3, 7, 5);
